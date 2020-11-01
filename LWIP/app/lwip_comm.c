@@ -5,22 +5,15 @@
 #include "lwip/memp.h"
 #include "lwip/init.h"
 #include "ethernetif.h" 
-//#include "lwip/timers.h"
-//#include "lwip/tcp_impl.h"
-//#include "lwip/ip_frag.h"
 #include "lwip/tcpip.h" 
 #include "malloc.h"
 #include "delay.h"
 #include "usart.h"  
 #include <stdio.h>
-//#include "lwip-2.1.2\core\mem.c"
-#include "mem.h"
 
+#include "mem.h"
 #include "ip_addr.h"
 #include "tcp_priv.h"
-
-//#define My_MEM_SIZE_ALIGNED     LWIP_MEM_ALIGN_SIZE(MEM_SIZE)
-//#define My_SIZEOF_STRUCT_MEM    LWIP_MEM_ALIGN_SIZE(sizeof(struct mem))
 
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
@@ -125,7 +118,6 @@ u8 lwip_comm_init(void)
 	ip4_addr_t netmask; 			//子网掩码
 	ip4_addr_t gw;      			//默认网关 
 //	if(lwip_comm_mem_malloc()) {
-//    printf("2222222");
 //    return 1;	//内存申请失败
 //  }
 	if(DM9000_Init())return 2;			//初始化DM9000
@@ -273,26 +265,6 @@ void lwip_dhcp_process_handle(void)
 	}
 }
 #endif 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

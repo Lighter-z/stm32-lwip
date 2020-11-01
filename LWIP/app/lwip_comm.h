@@ -19,6 +19,7 @@ typedef struct
 					//2,成功获取DHCP地址
 					//0XFF,获取失败.
 }__lwip_dev;
+
 extern __lwip_dev lwipdev;	//lwip控制结构体
 
 void lwip_pkt_handle(void);
@@ -31,16 +32,6 @@ u8 lwip_comm_init(void);
 void lwip_dhcp_process_handle(void);
 
 #endif
-
-
-
-
-
-
-
-
-
-
 
 
 
