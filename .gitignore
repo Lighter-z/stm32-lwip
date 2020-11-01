@@ -51,4 +51,11 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-OBJ/
+OBJ/*.crf
+OBJ/*.d
+OBJ/*.o
+OBJ/*.axf
+OBJ/*.htm
+OBJ/*.Inp
+OBJ/*.map
+OBJ/*.dep
