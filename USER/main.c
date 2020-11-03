@@ -13,6 +13,7 @@
 #include "lwip/netif.h"
 #include "lwip_comm.h"
 #include "lwipopts.h"
+#include "includes.h"
 /************************************************
  ALIENTEK战舰STM32开发板LWIP实验
  LWIP无操作系统移植
@@ -53,7 +54,7 @@ void show_address(u8 mode)
 	}	
 }
 
-
+#if 0
  int main(void)
  {	 
 	u32 i;
@@ -102,3 +103,63 @@ void show_address(u8 mode)
 		}
 	}
 }
+#else
+
+#define START_TASK_PRIO    10
+#define START_STK_SIZE     64
+OS_STK START_TASK_STK[START_STK_SIZE];
+
+#define LED0_TASK_PRIO     7
+#define LED0_STK_SIZE      64
+OS_STK LED0_TASK_STK[LED0_STK_SIZE];
+
+#define LED1_TASK_PRIO     6
+#define LED1_STK_SIZE      64
+OS_STK LED1_TASK_STK[LED1_STK_SIZE];
+
+
+void led0_task(void *pdata) {
+  while(1) {
+    LED0 = 0;
+    delay_ms(80);
+    LED0 = 1;
+    delay_ms(900);
+  }
+}
+
+void led1_task(void *pdata) {
+  while(1) {
+    LED1 = 0;
+    delay_ms(300);
+    LED1 = 1;
+    delay_ms(300);
+  }
+}
+
+void start_task(void *pdata) {
+  OS_CPU_SR cpu_sr = 0;
+  
+  OS_ENTER_CRITICAL();
+  
+  OSTaskCreate(led0_task, (void *)0, (OS_STK*)&LED0_TASK_STK[LED0_STK_SIZE-1], LED0_TASK_PRIO);
+  OSTaskCreate(led1_task, (void *)0, (OS_STK*)&LED1_TASK_STK[LED1_STK_SIZE-1], LED1_TASK_PRIO);
+  
+  OSTaskSuspend(START_TASK_PRIO);	//挂起起始任务.
+  OS_EXIT_CRITICAL();
+  
+}
+
+int main(void) {
+  
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
+	delay_init();	    //延时函数初始化	  
+	LED_Init();		  	//初始化与LED连接的硬件接口
+  
+  OSInit();
+  OSTaskCreate(start_task, (void *)0, (OS_STK*)&START_TASK_STK[START_STK_SIZE-1], START_TASK_PRIO);
+  OSStart();
+  return 0;
+}
+
+
+#endif

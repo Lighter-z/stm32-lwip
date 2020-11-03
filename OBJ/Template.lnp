@@ -70,6 +70,18 @@
 "..\obj\zepif.o"
 "..\obj\ethernetif.o"
 "..\obj\sys_arch.o"
+"..\obj\os_core.o"
+"..\obj\os_flag.o"
+"..\obj\os_mbox.o"
+"..\obj\os_mem.o"
+"..\obj\os_mutex.o"
+"..\obj\os_q.o"
+"..\obj\os_sem.o"
+"..\obj\os_task.o"
+"..\obj\os_time.o"
+"..\obj\os_tmr.o"
+"..\obj\os_cpu_a.o"
+"..\obj\os_cpu_c.o"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
