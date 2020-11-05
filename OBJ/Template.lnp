@@ -8,7 +8,6 @@
 "..\obj\sys.o"
 "..\obj\usart.o"
 "..\obj\sram.o"
-"..\obj\timer.o"
 "..\obj\dm9000.o"
 "..\obj\lcd.o"
 "..\obj\key.o"

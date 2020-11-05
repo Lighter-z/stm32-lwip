@@ -11,6 +11,8 @@
 
 #include "string.h"  
 
+extern OS_EVENT* dm9000input;		//DM9000接收数据信号量
+
 /* Define those to better describe your network interface. */
 #define IFNAME0 'e'
 #define IFNAME1 'n'
@@ -61,21 +63,49 @@ static struct pbuf * low_level_input(struct netif *netif)
 //netif:网卡结构体指针
 //返回值:ERR_OK,发送正常
 //       ERR_MEM,发送失败
+//err_t ethernetif_input(struct netif *netif)
+//{
+//	err_t err;
+//	struct pbuf *p;
+//	p=low_level_input(netif);   //调用low_level_input函数接收数据
+//	if(p==NULL) return ERR_MEM;
+//	err=netif->input(p, netif); //调用netif结构体中的input字段(一个函数)来处理数据包
+//	if(err!=ERR_OK)
+//	{
+//		LWIP_DEBUGF(NETIF_DEBUG,("ethernetif_input: IP input error\n"));
+//		pbuf_free(p);
+//		p = NULL;
+//	} 
+//	return err;
+//} 
 err_t ethernetif_input(struct netif *netif)
 {
+	INT8U _err;
 	err_t err;
 	struct pbuf *p;
-	p=low_level_input(netif);   //调用low_level_input函数接收数据
-	if(p==NULL) return ERR_MEM;
-	err=netif->input(p, netif); //调用netif结构体中的input字段(一个函数)来处理数据包
-	if(err!=ERR_OK)
+	while(1)
 	{
-		LWIP_DEBUGF(NETIF_DEBUG,("ethernetif_input: IP input error\n"));
-		pbuf_free(p);
-		p = NULL;
-	} 
-	return err;
+		OSSemPend(dm9000input,0,&_err);		//请求信号量
+		if(_err == OS_ERR_NONE)
+		{
+			while(1)
+			{
+				p=low_level_input(netif);   //调用low_level_input函数接收数据
+				if(p!=NULL)
+				{
+					err=netif->input(p, netif); //调用netif结构体中的input字段(一个函数)来处理数据包
+					if(err!=ERR_OK)
+					{
+						LWIP_DEBUGF(NETIF_DEBUG,("ethernetif_input: IP input error\n"));
+						pbuf_free(p);
+						p = NULL;
+					} 
+				}else break; 
+			}
+		}
+	}
 } 
+
 //使用low_level_init()函数来初始化网络
 //netif:网卡结构体指针
 //返回值:ERR_OK,正常

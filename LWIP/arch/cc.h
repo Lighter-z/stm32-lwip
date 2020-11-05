@@ -5,6 +5,8 @@
 
 //#include "main.h"
 
+#include "includes.h"  //使用UCOS 要添加此头文件！
+
 #define LWIP_NO_STDINT_H 1
 
 typedef unsigned   char    u8_t;
@@ -25,6 +27,20 @@ typedef int sys_prot_t;
 #define X32_F "x"
 #define SZT_F "uz" 
 
+//OS_CRITICAL_METHOD  定义在os_cup.h  查看下作用 定义
+//使用操作系统时的临界区保护，这里以UCOS II为例
+//当定义了OS_CRITICAL_METHOD时就说明使用了UCOS II
+#if OS_CRITICAL_METHOD == 1
+#define SYS_ARCH_DECL_PROTECT(lev)
+#define SYS_ARCH_PROTECT(lev)		CPU_INT_DIS()
+#define SYS_ARCH_UNPROTECT(lev)		CPU_INT_EN()
+#endif
+
+#if OS_CRITICAL_METHOD == 3  
+#define SYS_ARCH_DECL_PROTECT(lev)	u32_t lev
+#define SYS_ARCH_PROTECT(lev)		lev = OS_CPU_SR_Save() 	//UCOS II中进入临界区,关中断
+#define SYS_ARCH_UNPROTECT(lev)		OS_CPU_SR_Restore(lev)	//UCOS II中退出A临界区，开中断 
+#endif
 
 
 /* 选择小端模式 */

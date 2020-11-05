@@ -18,6 +18,9 @@
 
 struct dm9000_config dm9000cfg;				//DM9000配置结构体
 
+extern OS_EVENT* dm9000input;				//DM9000接收数据信号量
+extern OS_EVENT* dm9000lock;				//DM9000读写互锁控制信号量
+
 //初始化DM9000
 //返回值:
 //0,初始化成功
@@ -334,8 +337,11 @@ void DM9000_SendPacket(struct pbuf *p)
 {
 	struct pbuf *q;
 	u16 pbuf_index = 0;
-	u8 word[2], word_index = 0;	
-
+	u8 word[2], word_index = 0;
+  u8 err;		
+  
+  OSMutexPend(dm9000lock,0,&err); 			//请求互斥信号量,锁定DM9000 
+  
 	DM9000_WriteReg(DM9000_IMR,IMR_PAR);		//关闭网卡中断 
 	DM9000->REG=DM9000_MWCMD;					//发送此命令后就可以将要发送的数据搬到DM9000 TX SRAM中	
 	q=p;
@@ -365,7 +371,9 @@ void DM9000_SendPacket(struct pbuf *p)
 	DM9000_WriteReg(DM9000_TCR,0X01);						//启动发送 
 	while((DM9000_ReadReg(DM9000_ISR)&0X02)==0);			//等待发送完成 
 	DM9000_WriteReg(DM9000_ISR,0X02);						//清除发送完成中断 
- 	DM9000_WriteReg(DM9000_IMR,dm9000cfg.imr_all);			//DM9000网卡接收中断使能						
+ 	DM9000_WriteReg(DM9000_IMR,dm9000cfg.imr_all);			//DM9000网卡接收中断使能			
+
+  OSMutexPost(dm9000lock);								//发送互斥信号量,解锁DM9000  
 }
 
 //DM9000接收数据包
@@ -387,8 +395,12 @@ struct pbuf *DM9000_Receive_Packet(void)
     u16* data;
 	u16 dummy; 
 	int len;
+  u8 err;
 
 	p=NULL; 
+  
+  OSMutexPend(dm9000lock,0,&err); 				//请求互斥信号量,锁定DM9000
+  
 __error_retry:	
 	DM9000_ReadReg(DM9000_MRCMDX);					//假读
 	rxbyte=(u8)DM9000->DATA;						//进行第二次读取 
@@ -455,6 +467,9 @@ __error_retry:
         dm9000cfg.imr_all=IMR_PAR|IMR_PRI;				//重新接收中断 
         DM9000_WriteReg(DM9000_IMR, dm9000cfg.imr_all);
     } 
+    
+  OSMutexPost(dm9000lock);							//发送互斥信号量,解锁DM9000
+    
 	return (struct pbuf*)p; 
 }
 //中断处理函数
@@ -469,7 +484,7 @@ void DM9000_ISRHandler(void)
     if(int_status & ISR_ROOS)printf("overflow counter overflow \r\n");	
 	if(int_status & ISR_PRS)		//接收中断
 	{  
- 		//接收完成中断，用户自行添加所需代码
+ 		OSSemPost(dm9000input);		//处理接收到数据帧 
 	} 
 	if(int_status&ISR_PTS)			//发送中断
 	{ 

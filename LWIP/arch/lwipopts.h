@@ -2,10 +2,9 @@
 #ifndef __LWIPOPTS_H__
 #define __LWIPOPTS_H__
 
-#define SYS_LIGHTWEIGHT_PROT    0
-
+#define SYS_LIGHTWEIGHT_PROT    1//为1时使用实时操作系统的轻量级保护,保护关键代码不被中断打断
 //NO_SYS==1:不使用操作系统
-#define NO_SYS                  1  //不使用UCOS操作系统
+#define NO_SYS                  0  //不使用UCOS操作系统
 
 //使用4字节对齐模式
 #define MEM_ALIGNMENT           4  
@@ -84,7 +83,7 @@
 */
 
 //LWIP_NETCONN==1:使能NETCON函数(要求使用api_lib.c)
-#define LWIP_NETCONN                    0
+#define LWIP_NETCONN                    1
 
 /*
    ------------------------------------
@@ -92,7 +91,7 @@
    ------------------------------------
 */
 //LWIP_SOCKET==1:使能Socket API(要求使用sockets.c)
-#define LWIP_SOCKET                     0
+#define LWIP_SOCKET                     1
 
 #define LWIP_COMPAT_MUTEX               1
 
@@ -146,6 +145,25 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
 //#define LWIP_DEBUG                     1 //开启DEBUG选项
 
 #define ICMP_DEBUG                      LWIP_DBG_OFF //开启/关闭ICMPdebug
+
+
+//有关系统的选项
+#define TCPIP_THREAD_PRIO				        5							//定义内核任务的优先级为5
+#define TCPIP_THREAD_STACKSIZE          1000						//内核任务堆栈大小
+#define DEFAULT_UDP_RECVMBOX_SIZE       2000
+#define DEFAULT_THREAD_STACKSIZE        512
+
+
+///？？？？？？？？？？？？？？？？？
+#undef TCPIP_MBOX_SIZE
+#define TCPIP_MBOX_SIZE         		MAX_QUEUE_ENTRIES   		//tcpip创建主线程时的消息邮箱大小
+
+#undef DEFAULT_TCP_RECVMBOX_SIZE
+#define DEFAULT_TCP_RECVMBOX_SIZE       MAX_QUEUE_ENTRIES  
+
+#undef DEFAULT_ACCEPTMBOX_SIZE
+#define DEFAULT_ACCEPTMBOX_SIZE         MAX_QUEUE_ENTRIES  
+
 
 #endif /* __LWIPOPTS_H__ */
 

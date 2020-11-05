@@ -258,6 +258,7 @@ PACK_STRUCT_END
 #ifdef ETHARP_ALWAYS_INSERT
 #error "ETHARP_ALWAYS_INSERT option is deprecated. Remove it from your lwipopts.h."
 #endif
+#define LWIP_COMPAT_MUTEX_ALLOWED//mingzhao
 #if !NO_SYS && LWIP_TCPIP_CORE_LOCKING && LWIP_COMPAT_MUTEX && !defined(LWIP_COMPAT_MUTEX_ALLOWED)
 #error "LWIP_COMPAT_MUTEX cannot prevent priority inversion. It is recommended to implement priority-aware mutexes. (Define LWIP_COMPAT_MUTEX_ALLOWED to disable this error.)"
 #endif
