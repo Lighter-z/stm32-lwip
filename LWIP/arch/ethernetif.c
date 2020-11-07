@@ -131,10 +131,6 @@ err_t ethernetif_init(struct netif *netif) {
 	netif->name[0]=IFNAME0; 	//初始化变量netif的name字段
 	netif->name[1]=IFNAME1; 	//在文件外定义这里不用关心具体值
   
-//	netif->output=etharp_output;//IP层发送数据包函数
-//	netif->linkoutput=low_level_output;//ARP模块发送数据包函数
-//	low_level_init(netif); 		//底层硬件初始化函数
-  
 #if LWIP_IPV4
 #if LWIP_ARP || LWIP_ETHERNET
 #if LWIP_ARP
@@ -147,10 +143,10 @@ err_t ethernetif_init(struct netif *netif) {
 #endif /* LWIP_IPV4 */
  
 #if LWIP_IPV6
-  netif->output_ip6 = ethip6_output;
+  netif->output_ip6 = ethip6_output;  //IP层发送数据包函数
 #endif /* LWIP_IPV6 */
 
-  netif->linkoutput=low_level_output;//ARP模块发送数据包函数
+  netif->linkoutput=low_level_output;//ARP模块发送数据包函数   
   
   low_level_init(netif);           //底层硬件初始化函数
   ethernetif->ethaddr = (struct eth_addr *) &(netif->hwaddr[0]);
