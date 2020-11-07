@@ -107,7 +107,7 @@ void lwip_comm_default_ip_set(__lwip_dev *lwipx)
 	lwipx->remoteip[0]=192;	
 	lwipx->remoteip[1]=168;
 	lwipx->remoteip[2]=1;
-	lwipx->remoteip[3]=100;
+	lwipx->remoteip[3]=22;
 	//MAC地址设置(高三字节固定为:2.0.0,低三字节用STM32唯一ID)
 	lwipx->mac[0]=dm9000cfg.mac_addr[0];
 	lwipx->mac[1]=dm9000cfg.mac_addr[1];
@@ -228,7 +228,7 @@ void lwip_dhcp_task(void *pdata)
 			lwipdev.netmask[0]=(uint8_t)(netmask);
 			printf("通过DHCP获取到子网掩码............%d.%d.%d.%d\r\n",lwipdev.netmask[0],lwipdev.netmask[1],lwipdev.netmask[2],lwipdev.netmask[3]);
 			//解析出通过DHCP获取到的默认网关
-			lwipdev.gateway[3]=(uint8_t)(gw>>24);
+			lwipdev.gateway[3]=(uint8_t)(gw>>24); 
 			lwipdev.gateway[2]=(uint8_t)(gw>>16);
 			lwipdev.gateway[1]=(uint8_t)(gw>>8);
 			lwipdev.gateway[0]=(uint8_t)(gw);

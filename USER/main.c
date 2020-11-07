@@ -18,14 +18,12 @@
 #include "lwip_comm.h"
 #include "lwipopts.h"
 #include "includes.h"
+
+#include "LwipClient.h"
+#include "LwipUDP.h"
+
 /************************************************
- ALIENTEK战舰STM32开发板LWIP实验
- LWIP+UCOS操作系统移植实验
- 技术支持：www.openedv.com
- 淘宝店铺：http://eboard.taobao.com 
- 关注微信公众平台微信号："正点原子"，免费获取STM32资料。
- 广州市星翼电子科技有限公司  
- 作者：正点原子 @ALIENTEK
+
 ************************************************/
 
 //LED任务
@@ -104,6 +102,7 @@ int main(void)
 	POINT_COLOR = BLUE; 	//蓝色字体
 	 
 	OSInit();				//UCOS初始化
+
 	while(lwip_comm_init()) //lwip初始化
 	{
 		LCD_ShowString(30,110,200,20,16,"Lwip Init failed!"); 	//lwip初始化失败
@@ -112,6 +111,19 @@ int main(void)
 		delay_ms(500);
 	}
 	LCD_ShowString(30,110,200,20,16,"Lwip Init Success!"); 		//lwip初始化成功
+#if USE_UDP
+  while(LwipUDPThreadInit()) //lwip初始化
+#elif USE_TCP
+  while(LwipClientThreadInit()) 									//初始化tcp_client(创建tcp_client线程)
+#endif
+	{
+		LCD_ShowString(30,150,200,20,16,"TCP Client failed!!"); //tcp客户端创建失败
+		delay_ms(500);
+		LCD_Fill(30,150,230,170,WHITE);
+		delay_ms(500);
+	}
+	LCD_ShowString(30,150,200,20,16,"TCP Client Success!"); 			//udp创建成功
+  
 	OSTaskCreate(start_task,(void*)0,(OS_STK*)&START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO);
 	OSStart(); //开启UCOS
 }

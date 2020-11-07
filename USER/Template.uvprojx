@@ -542,6 +542,16 @@
               <FileType>1</FileType>
               <FilePath>..\LWIP\app\lwip_comm.c</FilePath>
             </File>
+            <File>
+              <FileName>LwipClient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LWIP\app\LwipClient.c</FilePath>
+            </File>
+            <File>
+              <FileName>LwipUDP.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LWIP\app\LwipUDP.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
