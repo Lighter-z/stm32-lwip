@@ -2,7 +2,8 @@
 
 #include "lwip/opt.h"
 #include "lwip/sys.h"
-#include "lwip/api.h"
+#include "lwip/api.h" 
+#include "lwip/sockets.h"
 
 #include "lwip_comm.h" 
 
@@ -56,8 +57,45 @@ static void LwipClientThread(void *param) {
 }
 #elif USE_SOCKET_TCP_CLIENT 
 
-static void LwipClientThread(void *param) {
+#define IP_ADDR   "192.168.1.22"
 
+static void LwipClientThread(void *param) {
+  OS_CPU_SR cpu_sr;
+  
+  int sock = -1;
+  struct sockaddr_in client_addr;
+  
+  uint8_t send_buf[] = "tcp client socket test ....\r\n";
+
+  while(1) {
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if(sock <= 0) {
+      printf("Socket error \r\n");
+      OSTimeDlyHMSM(0,0,0,10);
+      continue;
+    }
+    client_addr.sin_family = AF_INET;
+    client_addr.sin_addr.s_addr = inet_addr(IP_ADDR);
+    client_addr.sin_port = htons(REMOTE_PORT);
+    memset(&(client_addr.sin_zero), 0, sizeof(client_addr.sin_zero));
+    
+    if(connect(sock, (struct sockaddr *)&client_addr, sizeof(struct sockaddr)) == -1) {
+      printf("connect failed ! \r\n");
+      closesocket(sock);
+      OSTimeDlyHMSM(0,0,0,10);
+      continue;
+    }
+    
+    printf("connect server success ! \r\n");
+    
+    while(1) {
+      if(write(sock, send_buf, sizeof(send_buf)) < 0) {
+        break;
+      }
+      OSTimeDlyHMSM(0,0,0,10);
+    }
+    closesocket(sock);
+  }
 }
 
 #endif

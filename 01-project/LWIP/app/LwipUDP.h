@@ -3,7 +3,10 @@
 
 #include "includes.h"
 
-#define USE_UDP    0
+#define USE_UDP    1
+
+#define USE_UDP_NETCONN 0
+#define USE_UDP_SOCKET  1
 
 #define UDP_LOCAL_PORT 8089
 
