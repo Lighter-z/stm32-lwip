@@ -18,7 +18,7 @@ static void LwipServerThread(void *param) {
   
   conn = netconn_new(NETCONN_TCP);
   netconn_bind(conn, IP_ADDR_ANY, TCP_SERVER_PORT);
-  netconn_listen(conn); 
+  netconn_listen(conn);  
   printf("tcp server thread");
   
   while(1) {
