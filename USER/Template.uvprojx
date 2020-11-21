@@ -552,6 +552,11 @@
               <FileType>1</FileType>
               <FilePath>..\LWIP\app\LwipUDP.c</FilePath>
             </File>
+            <File>
+              <FileName>LwipServer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LWIP\app\LwipServer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

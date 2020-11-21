@@ -5,7 +5,7 @@
 
 
 
-#define USE_TCP    0
+#define USE_TCP_CLIENT    0
 #define USE_NETCONN_TCP_CLIENT 1
 #define USE_SOCKET_TCP_CLIENT  0
 

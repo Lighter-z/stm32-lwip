@@ -15,9 +15,7 @@ OS_STK UDP_TASK_STK[UDP_STK_SIZE];
 //ªÿœ‘ µ—È
 static void LwipUDPThread(void *param) {
   struct netconn *conn = NULL;
-  ip4_addr_t ipaddr;
   struct netbuf *buf;
-  struct netbuf *send_buf;
   char buffer[4096];
   
   err_t err;
@@ -65,6 +63,7 @@ INT8U LwipUDPThreadInit(void) {
   res = OSTaskCreate(LwipUDPThread, (void *)0, (OS_STK*)&UDP_TASK_STK[UDP_STK_SIZE - 1], UDP_PRIO);
   
   OS_EXIT_CRITICAL();
+  return res;
 }
 
 #endif

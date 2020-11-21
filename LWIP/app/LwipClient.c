@@ -6,7 +6,7 @@
 
 #include "lwip_comm.h" 
 
-#if USE_TCP
+#if USE_TCP_CLIENT
 
 //TCP客户端任务
 #define TCP_CLIENT_PRIO		8
