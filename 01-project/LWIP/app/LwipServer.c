@@ -5,8 +5,11 @@
 #include "lwip/api.h"
 #include "lwip/sockets.h"
 
-#if USE_TCP_SERVER 
+/*
+  数据传输时，不要使用串口，这样速度会快些
+*/
 
+#if USE_TCP_SERVER  
 
 #define TCP_SERVER_PRIO    8
 #define TCP_SERVER_STK_SIZE  300
@@ -60,7 +63,7 @@ static void LwipServerThread(void *param) {
   
   sock = socket(AF_INET, SOCK_STREAM, 0);
   if(sock < 0) {
-    printf("sock error \r\n"); 
+//    printf("sock error \r\n"); 
   }
   
   server_addr.sin_family = AF_INET;
@@ -69,14 +72,14 @@ static void LwipServerThread(void *param) {
   memset(&(server_addr.sin_zero), 0, sizeof(server_addr.sin_zero));
   
   if(bind(sock, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)) == -1) {
-    printf("bing failed \r\n"); 
+//    printf("bing failed \r\n"); 
     if(sock > 0) {
       closesocket(sock);
     } 
   }
   
   if(listen(sock, 5) == 1) {
-    printf("listern error \r\n"); 
+//    printf("listern error \r\n"); 
     if(sock > 0) {
       closesocket(sock);
     } 
@@ -86,9 +89,8 @@ static void LwipServerThread(void *param) {
     sin_size = sizeof(struct sockaddr_in);
     connected = accept(sock, (struct sockaddr *)&client_addr, &sin_size);
 
-    printf("new client connected from (%s, %d)\n",
-            inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-        {
+//    printf("new client connected from (%s, %d)\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+    {
       int flag = 1;
       
       setsockopt(connected,
@@ -103,7 +105,7 @@ static void LwipServerThread(void *param) {
       if(recv_len <= 0) {
         break;
       }
-      printf("recv %d len data \r\n", recv_len);
+//      printf("recv %d len data \r\n", recv_len);
       write(connected, recv_data, recv_len);
     }
     if(connected >= 0) {
