@@ -3,7 +3,7 @@
 
 #include "includes.h"
 
-#define USE_TCP_SERVER 1
+#define USE_TCP_SERVER 0
 #define USE_NETCONN_TCP_SERVER 0
 #define USE_SOCKET_TCP_SERVER  1
 #define TCP_SERVER_PORT 8087

@@ -14,6 +14,13 @@
 #include "usart.h"  
 #include <stdio.h>
 #include "includes.h"
+
+
+#include "LwipClient.h"
+#include "LwipUDP.h"
+#include "LwipServer.h"
+#include "LwipHttp.h"
+
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK 战舰开发板 V3
@@ -254,6 +261,21 @@ void lwip_dhcp_task(void *pdata)
 }
 #endif 
 
+
+INT8U LwipCommThreadInit(void) {
+  INT8U res;
+  
+#if USE_UDP  
+  res = LwipUDPThreadInit();
+#elif USE_TCP_CLIENT
+  res = LwipClientThreadInit();
+#elif USE_TCP_SERVER
+  res = LwipServerThreadInit();
+#elif USE_HTTP 
+  LwipHttpThreadInit();
+#endif
+  return res;
+}
 
 
 

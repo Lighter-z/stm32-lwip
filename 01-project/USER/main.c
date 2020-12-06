@@ -19,9 +19,6 @@
 #include "lwipopts.h"
 #include "includes.h"
 
-#include "LwipClient.h"
-#include "LwipUDP.h"
-#include "LwipServer.h"
 
 /************************************************
 
@@ -112,14 +109,8 @@ int main(void)
 		delay_ms(500);
 	}
 	LCD_ShowString(30,110,200,20,16,"Lwip Init Success!"); 		//lwip初始化成功
-#if USE_UDP
-  while(LwipUDPThreadInit()) //lwip初始化
-#elif USE_TCP_CLIENT
-  while(LwipClientThreadInit()) 									//初始化tcp_client(创建tcp_client线程)
-#elif USE_TCP_SERVER
-    while(LwipServerThreadInit()) //lwip初始化
-#endif
-	{
+
+  while(LwipCommThreadInit()) {
 		LCD_ShowString(30,150,200,20,16,"TCP Client failed!!"); //tcp客户端创建失败
 		delay_ms(500);
 		LCD_Fill(30,150,230,170,WHITE);

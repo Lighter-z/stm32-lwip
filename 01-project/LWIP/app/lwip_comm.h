@@ -31,6 +31,8 @@ void lwip_comm_mem_free(void);
 u8 lwip_comm_init(void);
 void lwip_dhcp_process_handle(void);
 
+INT8U LwipCommThreadInit(void);
+
 #endif
 
 

@@ -134,11 +134,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <DriverSelection>4100</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash2>Segger\JL2CM3.dll</Flash2>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -556,6 +556,11 @@
               <FileName>LwipServer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LWIP\app\LwipServer.c</FilePath>
+            </File>
+            <File>
+              <FileName>LwipHttp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LWIP\app\LwipHttp.c</FilePath>
             </File>
           </Files>
         </Group>
