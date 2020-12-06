@@ -62,6 +62,12 @@ u8 my_mem_perused(u8 memx);				 //获得内存使用率(外/内部调用)
 void myfree(u8 memx,void *ptr);  			//内存释放(外部调用)
 void *mymalloc(u8 memx,u32 size);			//内存分配(外部调用)
 void *myrealloc(u8 memx,void *ptr,u32 size);//重新分配内存(外部调用)
+
+//外部内存操作函数
+void mymexfree(void *ptr);
+void mymexmalloc(u32 size);
+void *mymexrealloc(void *ptr,u32 size);
+  
 #endif
 
 

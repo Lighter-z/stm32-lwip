@@ -315,7 +315,7 @@
             <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
-            <OneElfS>0</OneElfS>
+            <OneElfS>1</OneElfS>
             <Strict>0</Strict>
             <EnumInt>0</EnumInt>
             <PlainCh>0</PlainCh>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\MALLOC;..\USMART;..\FWLIB\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\LED;..\HARDWARE\SRAM;..\HARDWARE\TIMER;..\HARDWARE\DM9000;..\LWIP\lwip-2.1.2\include;..\LWIP\lwip-2.1.2\include\compat;..\LWIP\lwip-2.1.2\include\lwip;..\LWIP\lwip-2.1.2\netif;..\LWIP\lwip-2.1.2\include\lwip\apps;..\LWIP\lwip-2.1.2\include\lwip\priv;..\LWIP\lwip-2.1.2\include\lwip\prot;..\LWIP\arch;..\LWIP;..\LWIP\app;..\UCOSII\CONFIG;..\UCOSII\CORE;..\UCOSII\PORT</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\MALLOC;..\USMART;..\FWLIB\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\LED;..\HARDWARE\SRAM;..\HARDWARE\TIMER;..\HARDWARE\DM9000;..\LWIP\lwip-2.1.2\include;..\LWIP\lwip-2.1.2\include\compat;..\LWIP\lwip-2.1.2\include\lwip;..\LWIP\lwip-2.1.2\netif;..\LWIP\lwip-2.1.2\include\lwip\apps;..\LWIP\lwip-2.1.2\include\lwip\priv;..\LWIP\lwip-2.1.2\include\lwip\prot;..\LWIP\arch;..\LWIP;..\LWIP\app;..\UCOSII\CONFIG;..\UCOSII\CORE;..\UCOSII\PORT;..\Library\MQTT\src;..\Library\MQTT\sample;..\Library\cJson</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -561,6 +561,11 @@
               <FileName>LwipHttp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LWIP\app\LwipHttp.c</FilePath>
+            </File>
+            <File>
+              <FileName>MqttClient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LWIP\app\MqttClient.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -896,6 +901,31 @@
               <FileName>os_cfg.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\UCOSII\CONFIG\os_cfg.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Library</GroupName>
+          <Files>
+            <File>
+              <FileName>Mqtt.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\Library\MQTT\Objects\Mqtt.lib</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CJSON</GroupName>
+          <Files>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\cJson\cJSON.c</FilePath>
+            </File>
+            <File>
+              <FileName>cJsonAPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\cJson\cJsonAPI.c</FilePath>
             </File>
           </Files>
         </Group>

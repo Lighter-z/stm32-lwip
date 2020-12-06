@@ -3,9 +3,9 @@
 
 #include "includes.h"
 
-#define USE_HTTP 1
+#define USE_HTTP 0
 
-#define HTTP_PORT 80//87
+#define HTTP_PORT 80
 
 INT8U LwipHttpThreadInit(void);
   

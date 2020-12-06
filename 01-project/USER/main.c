@@ -24,15 +24,15 @@
 
 ************************************************/
 
-//LED任务
-//任务优先级
-#define LED_TASK_PRIO		9
-//任务堆栈大小
-#define LED_STK_SIZE		64
-//任务堆栈
-OS_STK	LED_TASK_STK[LED_STK_SIZE];
-//任务函数
-void led_task(void *pdata);  
+////LED任务
+////任务优先级
+//#define LED_TASK_PRIO		9
+////任务堆栈大小
+//#define LED_STK_SIZE		64
+////任务堆栈
+//OS_STK	LED_TASK_STK[LED_STK_SIZE];
+////任务函数
+//void led_task(void *pdata);  
 
 //在LCD上显示地址信息任务
 //任务优先级
@@ -130,7 +130,7 @@ void start_task(void *pdata)
 	
 	OSStatInit();  			//初始化统计任务
 	OS_ENTER_CRITICAL();  	//关中断
-	OSTaskCreate(led_task,(void*)0,(OS_STK*)&LED_TASK_STK[LED_STK_SIZE-1],LED_TASK_PRIO); 	//创建LED任务
+//	OSTaskCreate(led_task,(void*)0,(OS_STK*)&LED_TASK_STK[LED_STK_SIZE-1],LED_TASK_PRIO); 	//创建LED任务
 	OSTaskCreate(display_task,(void*)0,(OS_STK*)&DISPLAY_TASK_STK[DISPLAY_STK_SIZE-1],DISPLAY_TASK_PRIO); //显示任务
 	OSTaskSuspend(OS_PRIO_SELF); //挂起start_task任务
 	OS_EXIT_CRITICAL();  //开中断
@@ -155,13 +155,13 @@ void display_task(void *pdata)
 	}
 }
 
-//led任务
-void led_task(void *pdata)
-{
-	while(1)
-	{
-		LED0 = !LED0;
-		OSTimeDlyHMSM(0,0,0,500);  //延时500ms
- 	}
-}
+////led任务
+//void led_task(void *pdata)
+//{
+//	while(1)
+//	{
+//		LED0 = !LED0;
+//		OSTimeDlyHMSM(0,0,0,500);  //延时500ms
+// 	}
+//}
 
